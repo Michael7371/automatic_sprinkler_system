@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang = "en">
+    <head>
+        <title> Sprinkler_Zones </title>
+        <link rel="shortcut icon" href="">
+    </head>
+    <body>
+       	<form name="myForm">
+            <h2>Sprinkler Zone:</h2>
+            <input type="radio" name="myRadios" value="1">
+			<input type="radio" name="myRadios" value="2">
+			<input type="radio" name="myRadios" value="3">
+			<input type="radio" name="myRadios" value="4">
+			<input type="radio" name="myRadios" value="5">
+        </form>
+		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script> 
+		<script type="text/javascript">
+		    var lastSelected;
+		    $(function () {
+		        //if you have any radio selected by default
+		        lastSelected = $('[name="myRadios"]:checked').val();
+		    });
+		    $(document).on('click', '[name="myRadios"]', function () {
+		        if (lastSelected != $(this).val() && typeof lastSelected != "undefined") {
+		            alert("radio box with value " + $('[name="myRadios"][value="' + lastSelected + '"]').val() + " was deselected");
+		        }
+		        lastSelected = $(this).val();
+		    });
+		</script>
+	</body>
+</html>

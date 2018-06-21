@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang = "en">
+    <head>
+        <title> BasicVisionStreamExample </title>
+        <link rel="shortcut icon" href="">
+    </head>
+    <body>
+        <!-- <input type = "range" min = "0" max = "255" step="1" value="0" size="10" name="slider" onclick="update()"> -->
+            <form action="">
+                <h2>Sprinkler Zone:</h2>
+                <input type="button" name="Zone_1" value="Start" id="rb_zone01" onclick="button_updated(1)"> Zone 1<br>
+                <input type="button" name="Zone_2" value="Start" id="rb_zone02" onclick="button_updated(2)"> Zone 2<br>
+                <input type="button" name="Zone_3" value="Start" id="rb_zone03" onclick="button_updated(3)"> Zone 3<br>
+                <input type="button" name="Zone_4" value="Start" id="rb_zone04" onclick="button_updated(4)"> Zone 4<br>
+            </form>
+
+        <img id="img_zone01" src="{{ url_for('static',filename='Yard.png') }}" width="500" height="377" style="display: none">
+        <img id="img_zone02" name= "Zone_1" value="Zone_2" src="{{ url_for('static',filename='test.png') }}" width="500" height="377">
+
+        <script type = text/javascript src = "{{ url_for('static',filename='jquery.min.js')}}"></script> 
+        
+        <script>
+            $(document).ready(function() {
+                var toggleZone1 = true;
+                $("input[type=radio]").click(function(event) {
+                    var tempID = event.target.id;
+                    var length = tempID.length;
+                    var tempIDEnd = tempID.substring(length-2);
+                    //alert(tempID);
+                    $("input[type=radio]").each(function() {
+                        if (tempID == this.id)
+                            $("#" + this.id.replace("rb", "img")).show();
+                        else
+                            $("#" + this.id.replace("rb", "img")).hide();
+                    })
+                })
+                $("#rb_zone1").on('change', function() {
+                    if (toggleZone1)
+                        $("#img_zone1").show();
+                    else 
+                        $("#img_zone1").hide();
+                    toggleZone1 = !toggleZone1;
+                })
+            })
+            var update = function(){
+                $(function(){
+                    $.getJSON('/updateValues',{
+                        sliderValue: $('input[name=slider]').val()
+                    }, function(data) {
+                      $("#result").text(data.result);
+                    });
+                    return false;
+                });
+            }
+
+
+            var button_updated = function(button){
+                $(function(){
+                    $.getJSON('/button_update',{
+                        buttonvalue1: button                     
+                    }, function(data) {
+                      $("#result").text(data.result);
+                    });
+                    return false;
+                });
+            }         
+        </script>
+    </body>
+</html>
